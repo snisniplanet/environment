@@ -9,43 +9,43 @@ services:
       context: ../frontend
       dockerfile: Dockerfile
     command: "npm run dev"
-    ports: 
+    ports:
       - "80:3000"
-    env_file:
-      ../frontend/docker.env
+    env_file: ../frontend/docker.env
     networks:
       - code-network
-    depends_on: 
+    depends_on:
       - api
   api:
     container_name: snisni-api
     volumes:
       - ../api:/var/www:cached
+      - ./web/www.conf:/usr/local/etc/php-fpm.d/www.conf:cached
       - ~/.ssh:/root/.ssh/
-    build: 
+    build:
       context: ../api
       dockerfile: Dockerfile
     restart: always
     expose:
       - "9000"
-    networks: 
+    networks:
       - code-network
   webserver:
-        container_name: snisni-server
-        restart: always
-        build:
-            context: ./web
-            dockerfile: Dockerfile
-        volumes:
-            - ./web/www.conf:/usr/local/etc/php-fpm.d/www.conf:cached
-            - ./web/sites:/etc/nginx/conf.d
-        ports:
-            - "8080:80"
-            - "4430:443"
-        links:
-            - api
-        networks:
-          - code-network
+    container_name: snisni-server
+    restart: always
+    build:
+      context: ./web
+      dockerfile: Dockerfile
+    volumes:
+      - ../api:/var/www
+      - ./web/sites:/etc/nginx/conf.d
+    ports:
+      - "8080:80"
+      - "4430:443"
+    depends_on:
+      - api
+    networks:
+      - code-network
 networks:
   code-network:
     driver: bridge
