@@ -15,7 +15,7 @@ services:
     networks:
       - code-network
     depends_on:
-      - api
+      - webserver
   api:
     container_name: snisni-api
     volumes:
@@ -30,6 +30,8 @@ services:
       - "9000"
     networks:
       - code-network
+    depends_on:
+      - database
   webserver:
     container_name: snisni-server
     restart: always
