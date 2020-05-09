@@ -46,6 +46,14 @@ services:
       - api
     networks:
       - code-network
+  database:
+    container_name: snisni-database
+    build: 
+      context: ./database
+      dockerfile: Dockerfile
+    env_file: ./database/.env
+    networks: 
+      - code-network
 networks:
   code-network:
     driver: bridge
