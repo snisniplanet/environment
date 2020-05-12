@@ -22,6 +22,7 @@ services:
       - ../api:/var/www:cached
       - ./web/www.conf:/usr/local/etc/php-fpm.d/www.conf:cached
       - ~/.ssh:/root/.ssh/
+    working_dir: /var/www
     build:
       context: ../api
       dockerfile: Dockerfile
@@ -41,6 +42,7 @@ services:
     volumes:
       - ../api:/var/www
       - ./web/sites:/etc/nginx/conf.d
+    working_dir: /var/www
     ports:
       - "8080:80"
       - "4430:443"
