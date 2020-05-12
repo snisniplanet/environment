@@ -34,7 +34,16 @@ install:
 	make command container="api" command="composer install"
 	make command container="frontend" command="npm i"
 
+migrate:
+	make command container="api" command="php artisan migrate"
+
+fresh:
+	make command container="api" command="php artisan migrate:fresh"
+
+seed:
+	make command container="api" command="php artisan db:seed"
+
 setup:
 	make command container="api" command="php artisan key:generate"
-	make command container="api" command="php artisan migrate"
+	make migrate
 	make command container="api" command="php artisan passport:install"
