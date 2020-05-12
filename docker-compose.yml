@@ -49,7 +49,9 @@ services:
     depends_on:
       - api
     networks:
-      - code-network
+      code-network:
+        aliases: 
+          - backend
   database:
     container_name: snisni-database
     build: 
