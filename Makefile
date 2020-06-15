@@ -12,7 +12,7 @@ init:
 # Environment
 
 up:
-	docker-compose up -d --build
+	docker-compose up -d
 down:
 	docker-compose down
 start:
@@ -25,6 +25,8 @@ restart:
 	docker-compose restart
 rebuild:
 	make build && make restart
+new:
+	docker-compose build --no-cache
 command:
 	docker-compose exec $(container) $(command)
 
