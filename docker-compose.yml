@@ -58,6 +58,8 @@ services:
       context: ./database
       dockerfile: Dockerfile
     env_file: ./database/.env
+    ports: 
+      - "5432:5432"
     networks: 
       - code-network
 networks:
