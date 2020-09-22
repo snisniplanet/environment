@@ -4,7 +4,7 @@ services:
     container_name: snisni-frontend
     volumes:
       - ../frontend:/usr/src/frontend
-    working_dir: /usr/src/frontend
+      - /usr/src/frontend/node_modules
     build:
       context: ../frontend
       dockerfile: Dockerfile
