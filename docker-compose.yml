@@ -4,7 +4,7 @@ services:
     container_name: snisni-frontend
     volumes:
       - ../frontend:/usr/src/frontend
-      - /usr/src/frontend/node_modules
+      - ../frontend/node_modules:/usr/src/frontend/node_modules
     build:
       context: ../frontend
       dockerfile: Dockerfile
@@ -13,16 +13,16 @@ services:
       - "80:3000"
     env_file: ../frontend/dev.env
     networks:
-      - code-network
+      - backend
     depends_on:
       - webserver
   api:
     container_name: snisni-api
     volumes:
       - ../api:/var/www:cached
+      - ../api/vendor:/var/www/vendor
       - ./web/www.conf:/usr/local/etc/php-fpm.d/www.conf:cached
       - ~/.ssh:/root/.ssh/
-    working_dir: /var/www
     build:
       context: ../api
       dockerfile: Dockerfile
@@ -30,7 +30,7 @@ services:
     expose:
       - "9000"
     networks:
-      - code-network
+      - backend
     depends_on:
       - database
   webserver:
@@ -49,9 +49,7 @@ services:
     depends_on:
       - api
     networks:
-      code-network:
-        aliases: 
-          - backend
+      - backend
   database:
     container_name: snisni-database
     build: 
@@ -61,7 +59,7 @@ services:
     ports: 
       - "5432:5432"
     networks: 
-      - code-network
+      - backend
 networks:
-  code-network:
+  backend:
     driver: bridge
